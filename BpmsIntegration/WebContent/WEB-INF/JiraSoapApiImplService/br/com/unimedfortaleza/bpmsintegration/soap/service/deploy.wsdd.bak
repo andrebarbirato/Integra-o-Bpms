@@ -1,0 +1,52 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from JiraSoapApiImplService WSDL service -->
+
+  <service name="JiraSoapApiImpl" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://service.soap.bpmsintegration.unimedfortaleza.com.br"/>
+      <parameter name="wsdlServiceElement" value="JiraSoapApiImplService"/>
+      <parameter name="schemaQualified" value="http://service.soap.bpmsintegration.unimedfortaleza.com.br"/>
+      <parameter name="wsdlServicePort" value="JiraSoapApiImpl"/>
+      <parameter name="className" value="br.com.unimedfortaleza.bpmsintegration.soap.service.JiraSoapApiImplSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="JiraSoapApiImpl"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="buscarUsuariosJiraCloud" qname="operNS:buscarUsuariosJiraCloud" xmlns:operNS="http://service.soap.bpmsintegration.unimedfortaleza.com.br" returnQName="retNS:buscarUsuariosJiraCloudReturn" xmlns:retNS="http://service.soap.bpmsintegration.unimedfortaleza.com.br" returnType="rtns:Usuarios" xmlns:rtns="http://service.soap.bpmsintegration.unimedfortaleza.com.br" soapAction="" >
+        <parameter qname="pns:username" xmlns:pns="http://service.soap.bpmsintegration.unimedfortaleza.com.br" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <parameter name="allowedMethods" value="buscarUsuariosJiraCloud"/>
+
+      <arrayMapping
+        xmlns:ns="http://service.soap.bpmsintegration.unimedfortaleza.com.br"
+        qname="ns:ArrayOfUsuario"
+        type="java:br.com.unimedfortaleza.bpmsintegration.soap.service.Usuario[]"
+        innerType="cmp-ns:Usuario" xmlns:cmp-ns="http://service.soap.bpmsintegration.unimedfortaleza.com.br"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://service.soap.bpmsintegration.unimedfortaleza.com.br"
+        qname="ns:Usuario"
+        type="java:br.com.unimedfortaleza.bpmsintegration.soap.service.Usuario"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://service.soap.bpmsintegration.unimedfortaleza.com.br"
+        qname="ns:Usuarios"
+        type="java:br.com.unimedfortaleza.bpmsintegration.soap.service.Usuarios"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+  </service>
+</deployment>

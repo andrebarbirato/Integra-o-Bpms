@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://soap.bpmsintegration.unimedfortaleza.com.br" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://soap.bpmsintegration.unimedfortaleza.com.br" xmlns:intf="http://soap.bpmsintegration.unimedfortaleza.com.br" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://soap.bpmsintegration.unimedfortaleza.com.br" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="findUsers">
+    <complexType>
+     <sequence>
+      <element name="criterio" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="findUsersResponse">
+    <complexType>
+     <sequence>
+      <element name="findUsersReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="findUsersRequest">
+
+      <wsdl:part element="impl:findUsers" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="findUsersResponse">
+
+      <wsdl:part element="impl:findUsersResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="JiraApiSoap">
+
+      <wsdl:operation name="findUsers">
+
+         <wsdl:input message="impl:findUsersRequest" name="findUsersRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:findUsersResponse" name="findUsersResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="JiraApiSoapSoapBinding" type="impl:JiraApiSoap">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="findUsers">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="findUsersRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="findUsersResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="JiraApiSoapService">
+
+      <wsdl:port binding="impl:JiraApiSoapSoapBinding" name="JiraApiSoap">
+
+         <wsdlsoap:address location="http://bpmdev.unimedfortaleza.com.br/BpmsIntegration/services/JiraApiSoap"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>
