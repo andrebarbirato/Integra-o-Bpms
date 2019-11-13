@@ -38,8 +38,8 @@ public class SabiusAPI {
 		solicitacaoAutorizacaoVO.setCodUsuarioAuditoria("CHATBOT");
 		solicitacaoAutorizacaoVO.setUnimedAtendimento("63");
 		solicitacaoAutorizacaoVO.setUnimedCarteira("63");
-		solicitacaoAutorizacaoVO.setCodCarteira("2005029964");
-		solicitacaoAutorizacaoVO.setDvCarteira("6");
+		solicitacaoAutorizacaoVO.setCodCarteira("002005507891");
+		solicitacaoAutorizacaoVO.setDvCarteira("5");
 		solicitacaoAutorizacaoVO.setClassificacaoAtendimento("1093");
 		solicitacaoAutorizacaoVO.setCodCaixa("CHATBOT");
 		solicitacaoAutorizacaoVO.setObservacoes("Solicitação de segunda via de fatura");
@@ -47,44 +47,63 @@ public class SabiusAPI {
 		singlePersonJson = "{\"solicitacaoAutorizacaoVO\":"+singlePersonJson;		
 		singlePersonJson = singlePersonJson.replaceAll("]", "}")+"}";
 		
-       String protocolo = sabiusApi.criarAtendimento(singlePersonJson);
+		solicitacaoAutorizacaoVO = sabiusApi.criarAtendimento(singlePersonJson, solicitacaoAutorizacaoVO);
+
+		singlePersonJson = genson.serialize(solicitacaoAutorizacaoVO);
+		singlePersonJson = "{\"solicitacaoAutorizacaoVO\":"+singlePersonJson;		
+		singlePersonJson = singlePersonJson.replaceAll("]", "}")+"}";
+
+
+		String output = sabiusApi.encerrarAtendimento(singlePersonJson);
        
-       System.out.println("Numero do Protocolo: " + protocolo);
+       System.out.println("Numero do Protocolo: " + solicitacaoAutorizacaoVO.getNumeroProtocolo()+
+    		              " Numero da sessão: " +   solicitacaoAutorizacaoVO.getpNumSessao() + 
+    		              " Numero de atendimento: " + solicitacaoAutorizacaoVO.getNumeroAtendimento() +
+                          " output: " + output );
 		
 	}
 	
-   public String criarAtendimento(String jsonArg) {
+   public SolicitacaoAutorizacao criarAtendimento(String jsonArg, SolicitacaoAutorizacao solicitacao) {
+
 
 	    JSONObject json = SabiusAPI.call(URL_CRIAR_ATENDIMENTO, jsonArg);
-		String numeroProtocolo = json.getJSONObject("retorno")
-				               .getJSONObject("solicitacaoAutorizacaoVO")
-				               .getJSONObject("myHashMap")
-				               .getString("numeroProtocolo");
+
+		solicitacao.setNumeroProtocolo(json.getJSONObject("retorno")
+	               .getJSONObject("solicitacaoAutorizacaoVO")
+	               .getJSONObject("myHashMap")
+	               .getString("numeroProtocolo"));
 		
-		return numeroProtocolo; 
+		solicitacao.setpNumSessao(json.getJSONObject("retorno")
+	               .getJSONObject("solicitacaoAutorizacaoVO")
+	               .getJSONObject("myHashMap")
+	               .getString("pNumSessao"));
+
+		solicitacao.setNumeroAtendimento(json.getJSONObject("retorno")
+	               .getJSONObject("solicitacaoAutorizacaoVO")
+	               .getJSONObject("myHashMap")
+	               .getString("numeroAtendimento"));
+		
+		return solicitacao; 
 	   
    }
    
    public String encerrarAtendimento(String jsonArg) {
 	   
 	    JSONObject json = SabiusAPI.call(URL_ENCERRAR_ATENDIMENTO, jsonArg);
-		String numeroProtocolo = json.getJSONObject("retorno")
-				               .getJSONObject("solicitacaoAutorizacaoVO")
-				               .getJSONObject("myHashMap")
-				               .getString("numeroProtocolo");
+		String mensagem = json.getString("mensagem");
  		
- 		return numeroProtocolo; 
+ 		return mensagem; 
  	   
     }
    
-    public String getAuth() { 
+    private String getAuth() { 
     	
 		String authString = name + ":" + password;
  		return new BASE64Encoder().encode(authString.getBytes());
     	
     }
    
-    public static JSONObject call(String url, String body) { 
+    private static JSONObject call(String url, String body) { 
     	
 		HttpResponse<JsonNode> response = Unirest.post(url)
 				  .header("Content-Type", "application/json")

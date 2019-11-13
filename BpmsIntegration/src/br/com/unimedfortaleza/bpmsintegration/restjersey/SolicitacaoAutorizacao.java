@@ -11,8 +11,10 @@ public class SolicitacaoAutorizacao {
 	 private String classificacaoAtendimento;
 	 private String codCaixa;
 	 private String observacoes;
-	 
-	 
+     private String numeroAtendimento;
+     private String pNumSessao;
+     private String numeroProtocolo;
+
 	public String getPontoAtendimento() {
 		return pontoAtendimento;
 	}
@@ -67,6 +69,25 @@ public class SolicitacaoAutorizacao {
 	public void setDvCarteira(String dvCarteira) {
 		this.dvCarteira = dvCarteira;
 	}
+	public String getNumeroAtendimento() {
+		return numeroAtendimento;
+	}
+	public void setNumeroAtendimento(String numeroAtendimento) {
+		this.numeroAtendimento = numeroAtendimento;
+	}
+	public String getpNumSessao() {
+		return pNumSessao;
+	}
+	public void setpNumSessao(String pNumSessao) {
+		this.pNumSessao = pNumSessao;
+	}
+	public String getNumeroProtocolo() {
+		return numeroProtocolo;
+	}
+	public void setNumeroProtocolo(String numeroProtocolo) {
+		this.numeroProtocolo = numeroProtocolo;
+	}
+
 
  	
 }
